@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: linear-gradient(145deg, #fff0f7, #fde8f5, #f5e8ff);
+    display: flex; justify-content: center;
+    padding: 32px 16px 40px;
+    font-family: 'Caveat', cursive;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* floating hearts background */
+  .floaties { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+  .floaty {
+    position: absolute; font-size: 1.3rem; opacity: 0;
+    animation: floatUp linear infinite;
+  }
+  @keyframes floatUp {
+    0%   { transform: translateY(105vh) rotate(0deg) scale(0.8); opacity: 0; }
+    8%   { opacity: 0.18; }
+    92%  { opacity: 0.18; }
+    100% { transform: translateY(-5vh) rotate(360deg) scale(1.1); opacity: 0; }
+  }
+
+  .card {
+    background: white;
+    border-radius: 24px;
+    max-width: 480px; width: 100%;
+    box-shadow: 0 20px 60px rgba(255,100,180,0.14), 0 0 0 1px rgba(255,150,200,0.15);
+    overflow: hidden;
+    height: fit-content;
+    position: relative; z-index: 1;
+    animation: cardPop 0.8s cubic-bezier(.34,1.56,.64,1) both;
+  }
+  @keyframes cardPop {
+    from { transform: translateY(40px) scale(0.9); opacity: 0; }
+    to   { transform: translateY(0) scale(1); opacity: 1; }
+  }
+
+  /* header */
+  .card-header {
+    background: linear-gradient(135deg, #ff6eb4, #e040a0, #b44fff);
+    padding: 28px 28px 22px;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .card-header::after {
+    content: '';
+    position: absolute; bottom: -1px; left: 0; right: 0; height: 20px;
+    background: white;
+    clip-path: ellipse(55% 100% at 50% 100%);
+  }
+  .header-emoji {
+    font-size: 2.6rem; display: block; margin-bottom: 8px;
+    animation: beat 1.6s ease-in-out infinite;
+  }
+  @keyframes beat {
+    0%,100% { transform: scale(1); }
+    30%     { transform: scale(1.25); }
+    60%     { transform: scale(1.1); }
+  }
+  .header-stamp {
+    font-size: 0.78rem; font-weight: 700;
+    color: rgba(255,255,255,0.75);
+    text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px;
+  }
+  .header-title { font-size: 2.4rem; font-weight: 800; color: white; line-height: 1.2; }
+  .header-sub { font-size: 1rem; font-weight: 600; color: rgba(255,255,255,0.8); margin-top: 6px; }
+
+  /* body */
+  .card-body { padding: 28px 24px 20px; }
+
+  .section {
+    margin-bottom: 16px;
+    border-radius: 14px;
+    padding: 16px 18px;
+    border-left: 4px solid;
+    opacity: 0;
+    animation: slideIn 0.6s ease forwards;
+  }
+  .section:nth-child(1) { animation-delay: 0.3s; }
+  .section:nth-child(2) { animation-delay: 0.55s; }
+  .section:nth-child(3) { animation-delay: 0.8s; }
+
+  @keyframes slideIn {
+    from { transform: translateX(-20px); opacity: 0; }
+    to   { transform: translateX(0); opacity: 1; }
+  }
+
+  .sec-green { background: #f0fdf5; border-color: #22c55e; }
+  .sec-red   { background: #fff5f5; border-color: #f87171; }
+  .sec-amber { background: #fffbeb; border-color: #f59e0b; }
+
+  .sec-title {
+    font-size: 1.1rem; font-weight: 800; margin-bottom: 12px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .sec-green .sec-title { color: #16a34a; }
+  .sec-red   .sec-title { color: #dc2626; }
+  .sec-amber .sec-title { color: #d97706; }
+
+  .entry {
+    display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px;
+    opacity: 0; animation: fadeUp 0.5s ease forwards;
+  }
+  .entry:last-child { margin-bottom: 0; }
+
+  .sec-green .entry:nth-child(2) { animation-delay: 0.45s; }
+  .sec-green .entry:nth-child(3) { animation-delay: 0.55s; }
+  .sec-green .entry:nth-child(4) { animation-delay: 0.65s; }
+  .sec-red   .entry:nth-child(2) { animation-delay: 0.7s; }
+  .sec-red   .entry:nth-child(3) { animation-delay: 0.8s; }
+  .sec-red   .entry:nth-child(4) { animation-delay: 0.9s; }
+  .sec-amber .entry:nth-child(2) { animation-delay: 0.95s; }
+  .sec-amber .entry:nth-child(3) { animation-delay: 1.05s; }
+  .sec-amber .entry:nth-child(4) { animation-delay: 1.15s; }
+
+  @keyframes fadeUp {
+    from { transform: translateY(8px); opacity: 0; }
+    to   { transform: translateY(0); opacity: 1; }
+  }
+
+  .entry-num {
+    min-width: 22px; height: 22px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 800;
+    flex-shrink: 0; margin-top: 3px;
+    transition: transform 0.2s;
+  }
+  .entry:hover .entry-num { transform: scale(1.2); }
+  .sec-green .entry-num { background: #dcfce7; color: #16a34a; }
+  .sec-red   .entry-num { background: #fee2e2; color: #dc2626; }
+  .sec-amber .entry-num { background: #fef3c7; color: #d97706; }
+
+  .entry-text {
+    font-size: 1.08rem; font-weight: 600; color: #2d2d2d; line-height: 1.45;
+  }
+
+  /* footer */
+  .card-footer {
+    background: linear-gradient(135deg, #fff0f7, #f5e8ff);
+    border-top: 1px solid rgba(255,150,200,0.2);
+    padding: 18px 24px; text-align: center;
+    animation: fadeUp 0.6s ease 1.2s both;
+  }
+  .footer-text {
+    font-size: 1rem; font-weight: 700; color: #c0569a; line-height: 1.7;
+  }
+  .footer-text span {
+    display: inline-block;
+    animation: wobble 2.5s ease-in-out infinite;
+  }
+  @keyframes wobble {
+    0%,100% { transform: rotate(-3deg); }
+    50%     { transform: rotate(3deg); }
+  }
+</style>
+</head>
+<body>
+
+<!-- floating emojis -->
+<div class="floaties" id="floaties"></div>
+
+<div class="card">
+  <div class="card-header">
+    <span class="header-emoji">💌</span>
+    <div class="header-stamp">homework. submitted on time.</div>
+    <div class="header-title">About Semina</div>
+    <div class="header-sub">by Tanvir Akhter Shakib 🩷</div>
+  </div>
+
+  <div class="card-body">
+    <div class="section sec-green">
+      <div class="sec-title">🌟 your 3 best qualities</div>
+      <div class="entry"><span class="entry-num">1</span><span class="entry-text">You've always shown up when it truly mattered. You helped me navigate through leaving two jobs, getting into university, and dealing with job stress, pressure, and family challenges.</span></div>
+      <div class="entry"><span class="entry-num">2</span><span class="entry-text">At your core, you're genuinely a good person. Health conscious, disciplined, always trying to eat clean and live well. You're constantly learning and naturally curious about the world.</span></div>
+      <div class="entry"><span class="entry-num">3</span><span class="entry-text">You believe in me and support my decisions, especially when it comes to my startup ideas and ambitions. That support genuinely means a lot to me.</span></div>
+    </div>
+
+    <div class="section sec-red">
+      <div class="sec-title">😬 your 3 worst qualities</div>
+      <div class="entry"><span class="entry-num">1</span><span class="entry-text">You complain about your situation more than you actually work to change it. The dream life is there in your head, but the consistency and action behind it just isn't matching yet.</span></div>
+      <div class="entry"><span class="entry-num">2</span><span class="entry-text">Your life feels stuck in a loop. Sleep, wake up, work, come home, repeat. There's no real structure or momentum pushing you toward the life you keep saying you want.</span></div>
+      <div class="entry"><span class="entry-num">3</span><span class="entry-text">You can be genuinely hurtful sometimes. Not just honest or blunt. The way you say things can cut deep and stay with people longer than you realise.</span></div>
+    </div>
+
+    <div class="section sec-amber">
+      <div class="sec-title">💡 how you could improve</div>
+      <div class="entry"><span class="entry-num">1</span><span class="entry-text">Less complaining, more doing. Even one small step every day toward the life you want can completely change where you end up.</span></div>
+      <div class="entry"><span class="entry-num">2</span><span class="entry-text">Build some structure into your days. A proper morning routine, one job application, one course, one productive habit. You already have discipline in you, it just needs direction.</span></div>
+      <div class="entry"><span class="entry-num">3</span><span class="entry-text">Honesty does not need to come across as cruelty. Sometimes the people you care about most are the ones you hurt the deepest with your words, and that is something worth reflecting on.</span></div>
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <div class="footer-text">
+      studied hard for this one 📖<br/>
+      u r the subject and i aced it <span>🎓</span>💕
+    </div>
+  </div>
+</div>
+
+<script>
+  const emojis = ["💕","🌸","✨","💗","🎀","💖","🌷","💝","🩷","⭐","🫶","💫"];
+  const container = document.getElementById("floaties");
+  for (let i = 0; i < 18; i++) {
+    const el = document.createElement("span");
+    el.className = "floaty";
+    el.textContent = emojis[i % emojis.length];
+    el.style.left = `${(i * 5.5 + 3) % 96}%`;
+    el.style.animationDuration = `${9 + (i * 1.7) % 9}s`;
+    el.style.animationDelay = `${(i * 1.3) % 9}s`;
+    el.style.fontSize = `${1.1 + (i % 3) * 0.3}rem`;
+    container.appendChild(el);
+  }
+</script>
+</body>
+</html>
